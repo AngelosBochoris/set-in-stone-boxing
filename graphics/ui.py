@@ -137,8 +137,8 @@ class SelectionScreen:
     # ── update ────────────────────────────────
 
     def update(self, dt):
-        if self.locked:
-            return
+        # if self.locked:
+        #     return
         self.time_left -= dt
         if self.time_left <= 0 and not self.locked:
             self.locked = True
