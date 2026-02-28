@@ -3,12 +3,13 @@ import time
 import random
 
 class client:
-    def __init__(self):
-        self.name = "10.252.45.248"
+    def __init__(self,ip):
+        self.name = ip
         self.port = 8080
         self.number= -1
         self.ready=False
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
     def try_connect(self):
         try:
             self.s.connect((self.name, self.port))
@@ -23,7 +24,7 @@ class client:
             self.ready=True
         else:
             self.s.close()
-            raise Exception("Server died or something went wrong")
+            raise Exception("Bad should never happen why is the serevr returning nothing???")
 
     def send_move(self,move):
         self.s.send(bytes(move,'utf-8'))

@@ -9,19 +9,11 @@ class host():
 
         # sockets using TCP
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-    def can_be_host(self):
-
-        #binding the socket
-        try:
-            self.s.bind((self.name,self.port))
-            # lets 2 ppl connect
-            self.s.listen(2)
-            return True
-        except socket.error:
-            self.s.close()
-            return False
-
+        # host binds
+        self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.s.bind((self.name, self.port))
+        # lets 2 ppl connect
+        self.s.listen(2)
     def start(self):
         #stack with all the clients
         self.clients=[]

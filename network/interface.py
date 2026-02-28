@@ -7,57 +7,58 @@ import time
 
 
 class Network:
-    def __init__(self):
-
-        self.host=host()
-
-        #if we can host push it to the background
-        if(self.host.can_be_host()):
-            start_new_thread(self.host.start,())
-            print("I have host\n")
+    def __init__(self,ip,ht=True):
+        self.game_over=False
+        if ht:
+            self.host=host()
+            start_new_thread(self.host.start, ())
         else:
             self.host=None
-            print("I'm don't have host\n")
 
         #set up client object
-        self.client=client()
+        self.client=client(ip)
 
         #start client
-        self.client.try_connect()
+        if not self.client.try_connect():
+            raise Exception("Couldn't find server")
+
         start_new_thread(self.client.wait_for_game_start,())
     def send_move(self,move):
         ack=self.client.send_move(move)
         if ack=="Game_ended" or ack=="":
             self.client.s.close()
+            self.game_over=True
             return ack
         else:
             ack=ack.split("£@€")
             return ack[(self.client.number+1)%2]
 
     def end_game(self):
-        self.send_move("End")
+        if not self.game_over:
+            self.send_move("End")
 
 
-def establish_connection():
-    tmp=Network()
-    while not tmp.client.ready:
-        continue
+h=input()=='t'
+tmp=Network("10.254.229.251",h)
+ct=random.randint(1,90)
+#leading screen and what nor
+while not tmp.client.ready:
+    continue
 
-if __name__=="__main__":
-    tmp = Network()
-    ct=random.randint(1,90)
-    #leading screen and what nor
-    while not tmp.client.ready:
-        continue
+for i in range(3):
+    time.sleep(2)
+    print("Your move:",ct)
+    result = tmp.send_move(str(ct))
+    if result == "Game_ended" or result == "":
+        break
+    print("Enemy move:", result)
+    ct += 1
 
-    for i in range(3):
-        time.sleep(2)
-        print("Your move:",ct)
-        print("Enemy move:",tmp.send_move(str(ct)))
-        ct+=1
+time.sleep(1)
+print("Game over!")
 
-    time.sleep(1)
-    tmp.end_game()
+tmp.end_game()
+
 
 
 
