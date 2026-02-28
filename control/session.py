@@ -99,8 +99,11 @@ class GameSession:
     # ─────────────────────────────────────────────
     def submit_player_moves(self, moves: list[str]) -> None:
         """Store moves on the Player and send them to Logic."""
+        print(moves)
         self.player.set_moves(moves)
+        print(moves)
         result = self.logic.submit_moves(moves)
+        print(result)
         # self._transition(config.WAITING)
         self._steps = result["steps"]
         self._transition(config.RESOLVE)
