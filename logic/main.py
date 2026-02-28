@@ -49,13 +49,18 @@ class Logic:
             moves: e.g. ["Attack Left", "Defend Right", "Counter Left"]
         """
         self._my_moves = moves
+        print(moves)
         string_of_moves = ""
-        if len(moves) > 0:
-            for move in moves:
-                string_of_moves += move + ","
-            string_of_moves = string_of_moves[:-1]
+        if len(moves) == 0:
+            moves = ["Idle", "Idle"]
+        for move in moves:
+            string_of_moves += move + ","
+        string_of_moves = string_of_moves[:-1]
+        print("hey")
         opponent_moves = self._connection.send_move(string_of_moves)
+        print("hey")
         opponent_moves_list = opponent_moves.split(",")
+        print("hey")
 
         if self._connection.game_over:
             return None
