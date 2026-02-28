@@ -1,4 +1,5 @@
 import socket
+import random
 
 class host():
     def __init__(self):
@@ -14,6 +15,9 @@ class host():
         self.s.bind((self.name, self.port))
         # lets 2 ppl connect
         self.s.listen(2)
+
+        self.moves=random.randint(2,6)
+
     def start(self):
         #stack with all the clients
         self.clients=[]
@@ -29,7 +33,7 @@ class host():
 
         #tells both the game has started
         for soc, addr in self.clients:
-            soc.send(bytes("Game_started", "utf-8"))
+            soc.send(bytes(f"Game_started {self.moves}", "utf-8"))
         self.game_over = False
         self.data = ["0","0"]
 
