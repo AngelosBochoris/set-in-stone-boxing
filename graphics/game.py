@@ -274,7 +274,7 @@ class Game:
             pygame.draw.rect(self.screen, config.C_PANEL,
                              (x, y_offset, bar_w, bar_h), border_radius=5)
             # Health fill
-            fill_w = int(bar_w * player.health_fraction)
+            fill_w = int(bar_w * player.health_fraction())
             fill_colour = config.C_HEALTH_BAR if player.health > 30 else config.C_HEALTH_LOW
             if fill_w > 0:
                 pygame.draw.rect(self.screen, fill_colour,
