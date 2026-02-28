@@ -19,7 +19,8 @@ import pygame
 import sys
 
 import graphics.config as config
-from graphics.ui import Button, SelectionScreen
+from graphics.ui_elements.button import Button
+from graphics.ui_elements.battle_screen import SelectionScreen
 from control.session import GameSession
 
 
