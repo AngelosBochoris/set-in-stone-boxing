@@ -100,6 +100,9 @@ class Battle:
             # Apply damage to Player objects — single source of truth
             self.player.apply_damage(step.get("damage_to_p1", 0))
             self.opponent.apply_damage(step.get("damage_to_p2", 0))
+            if self.player.health <= 0 or self.opponent.health <= 0:
+                self._transition(config.GAME_OVER)
+                self.connection.end_game()
             self._step_timer = config.STEP_DELAY
         else:
             self.current_step = None
