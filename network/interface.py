@@ -1,6 +1,6 @@
 from network.client import Client
 from _thread import *
-from server import host
+from network.server import host
 
 import random
 import time
@@ -44,6 +44,7 @@ def establish_connection(ip="10.252.95.244"):
         continue
     return tmp
 
+"""
 h=input()=='t'
 tmp=Network("10.252.95.244",h)
 "10.252.95.244"
@@ -65,6 +66,7 @@ time.sleep(1)
 print("Game over!")
 
 tmp.end_game()
+"""
 
 
 
