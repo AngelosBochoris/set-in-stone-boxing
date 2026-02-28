@@ -18,9 +18,9 @@ Does NOT own: game state, round logic, health values,
 import pygame
 import sys
 
-import config
-from ui import Button, SelectionScreen
-from logic.session import GameSession
+import graphics.config as config
+from graphics.ui import Button, SelectionScreen
+from control.session import GameSession
 
 
 class Game:

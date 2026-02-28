@@ -8,9 +8,8 @@ import time
 
 class Network:
     def __init__(self):
-        self.name=""
-        self.port=8080
-        self.host=host(self.name,self.port)
+
+        self.host=host()
 
         #if we can host push it to the background
         if(self.host.can_be_host()):
@@ -21,7 +20,7 @@ class Network:
             print("I'm don't have host\n")
 
         #set up client object
-        self.client=client(self.name,self.port)
+        self.client=client()
 
         #start client
         self.client.try_connect()
