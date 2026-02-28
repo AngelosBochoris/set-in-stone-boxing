@@ -140,7 +140,7 @@ class SelectionScreen:
         # if self.locked:
         #     return
         self.time_left -= dt
-        if self.time_left <= 0 and not self.locked:
+        if self.time_left <= 0:
             self.locked = True
             self.timer_expired = True
 
