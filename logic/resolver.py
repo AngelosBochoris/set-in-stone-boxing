@@ -31,68 +31,71 @@ def get_result_of_moves(p1_moves: list[str], p2_moves: list[str], p1_health: int
 
 # Outcome table: (p1_move, p2_move) → (damage_to_p1, damage_to_p2)
 # Extend this as your combat design evolves.
+L=5
+M=10
+H=15
 _OUTCOME_TABLE: dict[tuple[str, str], tuple[int, int]] = {
     # Attack Left
-    ("Attack Left", "Attack Left"):   (10, 10),
-    ("Attack Left", "Defend Left"):  (0, 10),
-    ("Attack Left", "Counter Left"):   (0, 15),
-    ("Attack Left", "Attack Right"):  (5, 5),
-    ("Attack Left", "Defend Right"):   (5, 0),
-    ("Attack Left", "Counter Right"):  (15, 0),
-    ("Attack Left", "Idle"):  (0, 10),
+    ("Attack Left", "Attack Left"):   (M, M),
+    ("Attack Left", "Defend Left"):  (0, M),
+    ("Attack Left", "Counter Left"):   (0, H),
+    ("Attack Left", "Attack Right"):  (L, L),
+    ("Attack Left", "Defend Right"):   (L, 0),
+    ("Attack Left", "Counter Right"):  (H, 0),
+    ("Attack Left", "Idle"):  (0, M),
 
     # Defend Left
-    ("Defend Left", "Attack Left"): (10, 0),
+    ("Defend Left", "Attack Left"): (M, 0),
     ("Defend Left", "Defend Left"): (0, 0),
-    ("Defend Left", "Counter Left"): (0, 5),
-    ("Defend Left", "Attack Right"): (0, 5),
+    ("Defend Left", "Counter Left"): (0, L),
+    ("Defend Left", "Attack Right"): (0, L),
     ("Defend Left", "Defend Right"): (0, 0),
-    ("Defend Left", "Counter Right"): (10, 0),
+    ("Defend Left", "Counter Right"): (M, 0),
     ("Defend Left", "Idle"): (0, 0),
 
     # Counter Left
-    ("Counter Left", "Attack Left"): (15, 0),
-    ("Counter Left", "Defend Left"): (5, 0),
-    ("Counter Left", "Counter Left"): (15, 15),
-    ("Counter Left", "Attack Right"): (0, 15),
-    ("Counter Left", "Defend Right"): (0, 10),
-    ("Counter Left", "Counter Right"): (5, 5),
-    ("Counter Left", "Idle"): (0, 10),
+    ("Counter Left", "Attack Left"): (H, 0),
+    ("Counter Left", "Defend Left"): (L, 0),
+    ("Counter Left", "Counter Left"): (H, H),
+    ("Counter Left", "Attack Right"): (0, H),
+    ("Counter Left", "Defend Right"): (0, M),
+    ("Counter Left", "Counter Right"): (L, L),
+    ("Counter Left", "Idle"): (0, M),
 
     # Attack Right
-    ("Attack Right", "Attack Left"): (5, 5),
-    ("Attack Right", "Defend Left"): (5, 0),
-    ("Attack Right", "Counter Left"): (15, 0),
-    ("Attack Right", "Attack Right"): (10, 10),
-    ("Attack Right", "Defend Right"): (0, 10),
-    ("Attack Right", "Counter Right"): (0, 15),
-    ("Attack Right", "Idle"): (0, 10),
+    ("Attack Right", "Attack Left"): (L, L),
+    ("Attack Right", "Defend Left"): (L, 0),
+    ("Attack Right", "Counter Left"): (H, 0),
+    ("Attack Right", "Attack Right"): (M, M),
+    ("Attack Right", "Defend Right"): (0, M),
+    ("Attack Right", "Counter Right"): (0, H),
+    ("Attack Right", "Idle"): (0, M),
 
     # Defend Right
-    ("Defend Right", "Attack Left"): (0, 5),
+    ("Defend Right", "Attack Left"): (0, L),
     ("Defend Right", "Defend Left"): (0, 0),
-    ("Defend Right", "Counter Left"): (10, 0),
-    ("Defend Right", "Attack Right"): (10, 0),
+    ("Defend Right", "Counter Left"): (M, 0),
+    ("Defend Right", "Attack Right"): (M, 0),
     ("Defend Right", "Defend Right"): (0, 0),
-    ("Defend Right", "Counter Right"): (0, 5),
+    ("Defend Right", "Counter Right"): (0, L),
     ("Defend Right", "Idle"): (0, 0),
 
     # Counter Right
-    ("Counter Right", "Attack Left"): (0, 15),
-    ("Counter Right", "Defend Left"): (0, 10),
-    ("Counter Right", "Counter Left"): (5, 5),
-    ("Counter Right", "Attack Right"): (15, 0),
-    ("Counter Right", "Defend Right"): (5, 0),
-    ("Counter Right", "Counter Right"): (15, 15),
-    ("Counter Right", "Idle"): (0, 10),
+    ("Counter Right", "Attack Left"): (0, H),
+    ("Counter Right", "Defend Left"): (0, M),
+    ("Counter Right", "Counter Left"): (L, L),
+    ("Counter Right", "Attack Right"): (H, 0),
+    ("Counter Right", "Defend Right"): (L, 0),
+    ("Counter Right", "Counter Right"): (H, H),
+    ("Counter Right", "Idle"): (0, M),
 
     # Idle
-    ("Idle", "Attack Left"): (10, 0),
+    ("Idle", "Attack Left"): (M, 0),
     ("Idle", "Defend Left"): (0, 0),
-    ("Idle", "Counter Left"): (10, 0),
-    ("Idle", "Attack Right"): (10, 0),
+    ("Idle", "Counter Left"): (M, 0),
+    ("Idle", "Attack Right"): (M, 0),
     ("Idle", "Defend Right"): (0, 0),
-    ("Idle", "Counter Right"): (10, 0),
+    ("Idle", "Counter Right"): (M, 0),
     ("Idle", "Idle"): (0, 0),
 }
 
