@@ -2,7 +2,7 @@ import socket
 import time
 import random
 
-class client:
+class Client:
     def __init__(self,ip):
         self.name = ip
         self.port = 8080
