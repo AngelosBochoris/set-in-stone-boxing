@@ -35,7 +35,7 @@ class Logic:
         return self._connection.client.moves
 
     def game_over(self):
-        self._connection.game_over()
+        self._connection.end_game()
 
     def submit_moves(self, moves: list[str]) -> dict | None:
         """
