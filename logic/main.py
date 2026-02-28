@@ -34,6 +34,9 @@ class Logic:
     def get_move_number(self):
         return self._connection.client.moves
 
+    def game_over(self):
+        self._connection.game_over()
+
     def submit_moves(self, moves: list[str]) -> dict | None:
         """
         Store moves locally and send them to the server.

@@ -159,6 +159,7 @@ class GameSession:
             self._transition(config.P1_SELECT)
         else:
             self._transition(config.GAME_OVER)
+            self.logic.game_over()
 
     def _transition(self, new_state: str) -> None:
         self.state = new_state
