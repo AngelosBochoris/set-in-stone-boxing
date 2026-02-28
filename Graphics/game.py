@@ -30,10 +30,10 @@ class Game:
         pygame.display.set_caption(config.TITLE)
         self.clock  = pygame.time.Clock()
 
-        self.font_large  = pygame.font.SysFont("segoeui", 52, bold=True)
-        self.font_medium = pygame.font.SysFont("segoeui", 28)
-        self.font_small  = pygame.font.SysFont("segoeui", 20)
-        self.font_tiny   = pygame.font.SysFont("segoeui", 16)
+        self.font_large  = pygame.font.SysFont(None, 52, bold=True)
+        self.font_medium = pygame.font.SysFont(None, 28)
+        self.font_small  = pygame.font.SysFont(None, 20)
+        self.font_tiny   = pygame.font.SysFont(None, 16)
 
         # ── game state lives here, not in Game ────
         self.session = GameSession()
