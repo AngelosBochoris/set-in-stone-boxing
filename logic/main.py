@@ -1,5 +1,5 @@
 from network.interface import Network
-
+from logic.resolver import get_result_of_moves
 
 class Logic:
     def __init__(self):
@@ -30,7 +30,7 @@ class Logic:
 
         return self._connected
 
-    def submit_moves(self, moves: list[str]) -> None:
+    def submit_moves(self, moves: list[str]) -> dict | None:
         """
         Store moves locally and send them to the server.
         Non-blocking — do NOT wait for a response here.
@@ -42,28 +42,14 @@ class Logic:
             moves: e.g. ["Attack Left", "Defend Right", "Counter Left"]
         """
         self._my_moves = moves
-        # TODO: serialise and send moves over the network, e.g.:
-        #   self._socket.sendall(json.dumps({"moves": moves}).encode())
+        opponent_moves = self._connection.send_moves(self._my_moves)
 
-    # ─────────────────────────────────────────────────
-    #  Step 2 — polled every frame while in WAITING state
-    # ─────────────────────────────────────────────────
-
-    def poll_result(self) -> dict | None:
-        if self._result is not None:
-            return self._result  # already resolved, return cached result
-
-        # TODO: non-blocking check for opponent's moves, e.g.:
-        #   opponent_moves = self._try_receive_opponent_moves()
-        #   if opponent_moves is None:
-        #       return None
-
-        # Once opponent moves are received, resolve locally:
-        #   self._result = resolve_moves(self._my_moves, opponent_moves)
-        #   self._steps  = self._result["steps"]
-        #   return self._result
-
-        return None  # still waiting
+        if self._connection.game_over:
+            return None
+        else:
+            self._result = get_result_of_moves(opponent_moves)
+            self._steps = self._result["steps"]
+            return self._result
 
     # ─────────────────────────────────────────────────
     #  Step 3 — called once per STEP_DELAY tick in RESOLVE
