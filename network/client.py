@@ -11,7 +11,7 @@ class client:
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     def try_connect(self):
         try:
-            self.s.connect((socket.gethostname(), 8080))
+            self.s.connect((self.name, 8080))
             self.number=int(self.s.recv(1024).decode('utf-8'))
             return True
         except socket.error:

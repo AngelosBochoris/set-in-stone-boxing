@@ -26,6 +26,7 @@ class host():
         #stack with all the clients
         self.clients=[]
         print("Server is listening")
+
         while len(self.clients)<2:
             clientSocket, addr = self.s.accept()
             clientSocket.send(bytes(str(len(self.clients)), "utf-8"))
