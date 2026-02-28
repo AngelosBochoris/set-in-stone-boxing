@@ -90,6 +90,7 @@ class SelectionScreen:
         self.locked     = False
         self.number_of_moves = 3
         self.time_left  = config.SELECTION_TIME
+        self.timer_expired = False
 
         self._font_title  = pygame.font.SysFont("segoeui", 32, bold=True)
         self._font_timer  = pygame.font.SysFont("segoeui", 48, bold=True)
@@ -123,6 +124,7 @@ class SelectionScreen:
         self.locked    = False
         self.time_left = config.SELECTION_TIME
         self.number_of_moves = number_of_moves
+        self.timer_expired = False
         for btn in self.buttons:
             btn.pressed = False
             btn.locked  = False
@@ -138,9 +140,9 @@ class SelectionScreen:
         if self.locked:
             return
         self.time_left -= dt
-        if self.time_left <= 0:
-            self.time_left = 0
-            self._lock()
+        if self.time_left <= 0 and not self.locked:
+            self.locked = True
+            self.timer_expired = True
 
     # ── event handling ────────────────────────
 
