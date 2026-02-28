@@ -1,6 +1,6 @@
-from network.client import Client
+from controller.network.client import Client
 from _thread import *
-from network.server import host
+from controller.network.server import host
 
 import random
 import time
