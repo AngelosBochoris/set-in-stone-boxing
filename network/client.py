@@ -7,6 +7,7 @@ class Client:
         self.name = ip
         self.port = 8080
         self.number= -1
+        self.moves=-1
         self.ready=False
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -18,9 +19,10 @@ class Client:
         except socket.error:
             return False
     def wait_for_game_start(self):
-        msg=self.s.recv(1024).decode('utf-8')
-        if msg=="Game_started":
+        msg=self.s.recv(1024).decode('utf-8').split(" ")
+        if msg[0]=="Game_started":
             print("Accepted")
+            self.moves=int(msg[1])
             self.ready=True
         else:
             self.s.close()

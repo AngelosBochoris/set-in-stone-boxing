@@ -46,8 +46,7 @@ def establish_connection(ip="10.252.95.244"):
 
 """
 h=input()=='t'
-tmp=Network("10.252.95.244",h)
-"10.252.95.244"
+tmp=Network("10.253.172.97",h)
 ct=random.randint(1,90)
 #leading screen and what nor
 while not tmp.client.ready:
@@ -55,6 +54,7 @@ while not tmp.client.ready:
 
 for i in range(3):
     time.sleep(2)
+    print("No. Moves",tmp.client.moves)
     print("Your move:",ct)
     result = tmp.send_move(str(ct))
     if result == "Game_ended" or result == "":
@@ -67,6 +67,7 @@ print("Game over!")
 
 tmp.end_game()
 """
+
 
 
 
