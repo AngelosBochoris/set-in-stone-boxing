@@ -1,6 +1,5 @@
 from typing import *
-from enum import Enum
-from utils import get_action_matrix
+from utils import *
 
 
 class Player:
@@ -10,17 +9,6 @@ class Player:
         # TODO
 
     pass
-
-
-class Move(Enum):
-    ATT_L = 0
-    ATT_R = 1
-    DEF_L = 2
-    DEF_R = 3
-    DOG_L = 4
-    DOG_R = 5
-
-
 class Game:
     action_matrix: Dict[Tuple[Move, Move], Any] = get_action_matrix()
 
