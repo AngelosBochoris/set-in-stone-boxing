@@ -1,4 +1,3 @@
-from network.interface import Network
 from model.resolver import get_result_of_moves
 
 class Logic:
