@@ -24,23 +24,16 @@ class Player:
     def clear_moves(self) -> None:
         self.moves = []
 
-    # ── health management ─────────────────────────
-
     def apply_damage(self, amount: int) -> None:
         self.health = max(0, self.health - amount)
 
     def reset_health(self) -> None:
         self.health = self.max_health
 
-    # ── convenience queries ───────────────────────
-
-    @property
     def is_alive(self) -> bool:
         return self.health > 0
 
-    @property
     def health_fraction(self) -> float:
-        """0.0 – 1.0, useful for health bar rendering."""
         return self.health / self.max_health
 
     def __repr__(self) -> str:

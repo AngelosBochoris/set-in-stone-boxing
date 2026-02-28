@@ -1,37 +1,12 @@
-"""
-logic/main.py
-─────────────────────────────────────────────────────
-Responsibilities:
-  - Networking: send this client's moves to the server,
-                receive the opponent's moves from the server.
-  - Resolution: resolve both move sequences locally into
-                a list of per-step results.
-  - Delivery:   serve those results to the Game layer
-                one step at a time via next_step().
-from typing import *
-from utils import *
-
-The server is a dumb move exchange — it does NOT resolve
-combat. It only pairs two clients and relays their moves.
-
-Public API (the only surface Game touches):
-  submit_moves(moves)  → None
-  poll_result()        → None | dict
-  next_step()          → None | dict
-
-No pygame imports. No rendering logic.
-─────────────────────────────────────────────────────
-"""
-
-
-
 from network.interface import Network
+
+
 class Logic:
     def __init__(self):
-        self._my_moves:   list[str]   = []
-        self._steps:      list[dict]  = []
-        self._step_index: int         = 0
-        self._result:     dict | None = None
+        self._my_moves: list[str] = []
+        self._steps: list[dict] = []
+        self._step_index: int = 0
+        self._result: dict | None = None
 
         self._connected = False
         self._connecting = False
@@ -55,10 +30,6 @@ class Logic:
 
         return self._connected
 
-    # ─────────────────────────────────────────────────
-    #  Step 1 — called by Game when P1 locks their moves
-    # ─────────────────────────────────────────────────
-
     def submit_moves(self, moves: list[str]) -> None:
         """
         Store moves locally and send them to the server.
@@ -79,34 +50,6 @@ class Logic:
     # ─────────────────────────────────────────────────
 
     def poll_result(self) -> dict | None:
-        """
-        Check whether the opponent's moves have arrived from the server.
-        If they have, resolve the round locally and cache the result.
-
-        Returns:
-            None  — still waiting for opponent's moves.
-            dict  — full resolution result (see shape below) once ready.
-
-        Internally this method should:
-            1. Check the network buffer (non-blocking recv / async check).
-            2. If opponent moves have arrived, call resolve_moves() locally.
-            3. Cache and return the result dict.
-
-        Result shape:
-            {
-                "steps": [
-                    {
-                        "p1_move":      str,   # this client's move at step i
-                        "p2_move":      str,   # opponent's move at step i
-                        "damage_to_p1": int,
-                        "damage_to_p2": int,
-                    },
-                    ...                        # one entry per move step
-                ],
-                "final_p1_health": int,
-                "final_p2_health": int,
-            }
-        """
         if self._result is not None:
             return self._result  # already resolved, return cached result
 

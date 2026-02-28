@@ -1,51 +1,4 @@
-"""
-logic/resolver.py
-─────────────────────────────────────────────────────
-Local move resolution engine.
-
-Takes both players' move sequences and produces a
-step-by-step breakdown of the round outcome.
-
-Completely stateless — pure function, no networking,
-no pygame, no side effects.
-─────────────────────────────────────────────────────
-"""
-
-
-def resolve_moves(
-    p1_moves: list[str],
-    p2_moves: list[str],
-    p1_health: int = 100,
-    p2_health: int = 100,
-) -> dict:
-    """
-    Resolve two move sequences against each other step by step.
-
-    Moves are paired by index. If one player submitted fewer moves,
-    the shorter list is padded with "Idle" (no action, no damage).
-
-    Args:
-        p1_moves:  This client's move sequence.
-        p2_moves:  Opponent's move sequence (received from server).
-        p1_health: P1's health entering this round (default 100).
-        p2_health: P2's health entering this round (default 100).
-
-    Returns:
-        {
-            "steps": [
-                {
-                    "p1_move":      str,
-                    "p2_move":      str,
-                    "damage_to_p1": int,
-                    "damage_to_p2": int,
-                },
-                ...
-            ],
-            "final_p1_health": int,
-            "final_p2_health": int,
-        }
-    """
-    # Pad the shorter list so both sequences are the same length
+def get_result_of_moves(p1_moves: list[str], p2_moves: list[str], p1_health: int = 100, p2_health: int = 100, ) -> dict:
     length = max(len(p1_moves), len(p2_moves))
     p1_padded = p1_moves + ["Idle"] * (length - len(p1_moves))
     p2_padded = p2_moves + ["Idle"] * (length - len(p2_moves))
@@ -61,7 +14,6 @@ def resolve_moves(
             "damage_to_p1": d1,
             "damage_to_p2": d2,
         })
-
     return {
         "steps":            steps,
         "final_p1_health":  p1_health,
