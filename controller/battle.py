@@ -111,12 +111,13 @@ class Battle:
             self._transition(config.P1_SELECT)
         else:
             self._transition(config.GAME_OVER)
+            self.connection.game_over()
 
     def _transition(self, new_state: str) -> None:
         self.battle_state = new_state
 
         if new_state == config.P1_SELECT:
-            moves_this_round = random.randint(config.MIN_MOVES, config.MAX_MOVES)
+            moves_this_round = self.connection.get_move_number()
             self._moves_this_round = moves_this_round  # read by Game to reset SelectionScreen
             self.player.clear_moves()
             self.opponent.clear_moves()
