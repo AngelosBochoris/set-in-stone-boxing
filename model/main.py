@@ -42,10 +42,6 @@ class Logic:
             self._step_index = 0
             return self._result
 
-    # ─────────────────────────────────────────────────
-    #  Step 3 — called once per STEP_DELAY tick in RESOLVE
-    # ─────────────────────────────────────────────────
-
     def next_step(self) -> dict | None:
         """
         Pop and return the next resolved step for the UI to display.

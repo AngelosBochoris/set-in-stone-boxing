@@ -1,12 +1,18 @@
 import configs.config as config
 import pygame
 import sys
+from enum import Enum
 
 pygame.init()
 
 class Process:
+    class Page(Enum):
+        MAIN_MENU_PAGE = 0
+        BATTLE_MENU_PAGE = 1
+
     def __init__(self):
         self.clock = pygame.time.Clock()
+        self.page = self.Page.MAIN_MENU_PAGE
     def run(self):
         while True:
             dt = self.clock.tick(config.FPS) / 1000.0
@@ -23,24 +29,25 @@ class Process:
             pygame.display.flip()
 
     def _handle_event(self, event, mouse_pos):
-        state = self.session.state
 
-        if state == config.MAIN_MENU:
+        # if state == config.MAIN_MENU:
+        if self.page == self.Page.MAIN_MENU_PAGE:
             if self.btn_start.handle_event(event, mouse_pos):
                 self.session.start_game()
             if self.btn_quit.handle_event(event, mouse_pos):
                 pygame.quit()
                 sys.exit()
+        else:
+            battle_state = self.battle.battle_state
+            if battle_state == config.P1_SELECT:
+                self.p1_screen.handle_event(event, mouse_pos)
 
-        elif state == config.P1_SELECT:
-            self.p1_screen.handle_event(event, mouse_pos)
-
-        elif state == config.GAME_OVER:
-            if event.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):
-                self.session.state = config.MAIN_MENU
+            elif battle_state == config.GAME_OVER:
+                if event.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):
+                    self.session.battle_state = config.MAIN_MENU
 
     def _update(self, dt: float, mouse_pos):
-        state = self.session.state
+        state = self.session.battle_state
 
         if state == config.MAIN_MENU:
             self.btn_start.hovered = self.btn_start.is_hovered(mouse_pos)
@@ -56,5 +63,5 @@ class Process:
         self.session.update(dt)
 
         # Sync SelectionScreen when session transitions back to P1_SELECT
-        if state != config.P1_SELECT and self.session.state == config.P1_SELECT:
+        if state != config.P1_SELECT and self.session.battle_state == config.P1_SELECT:
             self.p1_screen.reset(self.session.moves_this_round)
