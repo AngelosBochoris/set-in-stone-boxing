@@ -1,39 +1,9 @@
-"""
-logic/session.py
-─────────────────────────────────────────────────────
-GameSession — owns all game state and drives transitions.
-
-Responsibilities:
-  - Track game state (current state string, round number).
-  - Own both Player objects.
-  - Coordinate with Logic for move submission and result polling.
-  - Advance the step-by-step resolve queue.
-  - Expose clean, read-only display data to the graphics layer.
-
-The graphics layer (Game) calls:
-  session.start_game()
-  session.submit_player_moves(moves)
-  session.update(dt)               ← called every frame
-  session.state                    ← current state string
-  session.round_number             ← int
-  session.max_rounds               ← int
-  session.player                   ← Player (this client)
-  session.opponent                 ← Player (remote)
-  session.current_step             ← dict | None
-  session.step_index               ← int
-  session.total_steps              ← int
-  session.step_timer               ← float (for progress bar)
-  session.winner                   ← "player" | "opponent" | "draw" | None
-
-No pygame. No rendering.
-─────────────────────────────────────────────────────
-"""
-
 import random
 import configs.config as config
 from controller.connection import Connection as Connection
 from model.player import Player
 from model.main import Logic
+
 
 class Battle:
     def __init__(self):
@@ -49,6 +19,7 @@ class Battle:
         self.current_step: dict | None = None
 
         self.connection = None
+
     @property
     def step_index(self) -> int:
         return self._step_index
@@ -107,6 +78,7 @@ class Battle:
             self._step_timer -= dt
             if self._step_timer <= 0:
                 self._advance_step()
+
     def _update_waiting(self) -> None:
         result = self.logic.poll_result()
         if result is None:
