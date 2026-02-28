@@ -49,6 +49,7 @@ class Logic:
         else:
             self._result = get_result_of_moves(opponent_moves)
             self._steps = self._result["steps"]
+            self._step_index = 0
             return self._result
 
     # ─────────────────────────────────────────────────
