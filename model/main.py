@@ -1,7 +1,7 @@
 from model.resolver import get_result_of_moves
 
 class Logic:
-    def __init__(self):
+    def __init__(self, network):
         self._my_moves: list[str] = []
         self._steps: list[dict] = []
         self._step_index: int = 0
@@ -9,7 +9,7 @@ class Logic:
 
         self._connected = False
         self._connecting = False
-        self._connection = None
+        self._connection = network
 
 
 
@@ -25,7 +25,10 @@ class Logic:
             moves: e.g. ["Attack Left", "Defend Right", "Counter Left"]
         """
         self._my_moves = moves
+        print("submit_moves:",moves)
         string_of_moves = ""
+        if len(moves) == 0:
+            moves = ["Idle", "Idle"]
         for move in moves:
             string_of_moves += move + ","
         string_of_moves = string_of_moves[:-1]

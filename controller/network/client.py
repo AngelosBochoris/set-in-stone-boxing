@@ -22,6 +22,7 @@ class Client:
 
     def wait_for_game_start(self):
         msg = self.s.recv(1024).decode('utf-8').split(" ")
+        print("from server",msg)
         if msg[0] == "Game_started":
             print("Accepted")
             self.moves = int(msg[1])

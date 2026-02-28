@@ -7,35 +7,38 @@ import time
 
 
 class Network:
-    def __init__(self,ip,ht=True):
-        self.game_over=False
+    def __init__(self, ip, ht=True):
+        self.game_over = False
         if ht:
-            self.host=host()
+            self.host = host()
             start_new_thread(self.host.start, ())
         else:
-            self.host=None
+            self.host = None
 
         #set up client object
-        self.client=Client(ip)
+        self.client = Client(ip)
 
         #start client
         if not self.client.try_connect():
             raise Exception("Couldn't find server")
 
-        start_new_thread(self.client.wait_for_game_start,())
-    def send_move(self,move):
-        ack=self.client.send_move(move)
-        if ack=="Game_ended" or ack=="":
+        start_new_thread(self.client.wait_for_game_start, ())
+
+    def send_move(self, move):
+        ack = self.client.send_move(move)
+        if ack == "Game_ended" or ack == "":
             self.client.s.close()
-            self.game_over=True
+            self.game_over = True
             return ack
         else:
-            ack=ack.split("£@€")
-            return ack[(self.client.number+1)%2]
+            ack = ack.split("£@€")
+            print("ack:", ack)
+            return ack[(self.client.number + 1) % 2]
 
     def end_game(self):
         if not self.game_over:
             self.send_move("End")
+
 
 def establish_connection(ip="10.252.95.244"):
     tmp = Network(ip)
@@ -43,6 +46,7 @@ def establish_connection(ip="10.252.95.244"):
     while not tmp.client.ready:
         continue
     return tmp
+
 
 """
 h=input()=='t'
@@ -67,8 +71,3 @@ print("Game over!")
 
 tmp.end_game()
 """
-
-
-
-
-

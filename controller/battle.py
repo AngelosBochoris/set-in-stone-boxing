@@ -12,7 +12,7 @@ class Battle:
         self.round_number: int = 1
         self.player: Player = Player("You")
         self.opponent: Player = Player("Opponent")
-        self.logic: Logic = Logic()
+        self.logic = None
         self._steps: list[dict] = []
         self._step_index: int = 0
         self._step_timer: float = 0.0
@@ -46,16 +46,13 @@ class Battle:
     def start_game(self) -> None:
         if self.connection is None:
             self.connection = Connection()
+        self.connection.start_connection()
 
         self.round_number = 1
         self.player.reset_health()
         self.opponent.reset_health()
 
-        # TODO
-        self.logic = Logic()
-
-        # TODO
-        self.connection.start_connection()
+        self.logic = Logic(self.connection.network)
 
         self._transition(config.CONNECTING)
 
@@ -102,7 +99,7 @@ class Battle:
             self.opponent.apply_damage(step.get("damage_to_p2", 0))
             if self.player.health <= 0 or self.opponent.health <= 0:
                 self._transition(config.GAME_OVER)
-                self.connection.end_game()
+                self.connection.network.end_game()
             self._step_timer = config.STEP_DELAY
         else:
             self.current_step = None
@@ -114,13 +111,13 @@ class Battle:
             self._transition(config.P1_SELECT)
         else:
             self._transition(config.GAME_OVER)
-            self.connection.end_game()
+            self.connection.network.end_game()
 
     def _transition(self, new_state: str) -> None:
         self.battle_state = new_state
 
         if new_state == config.P1_SELECT:
-            moves_this_round = self.connection.get_move_number()
+            moves_this_round = self.connection.network.client.moves
             self._moves_this_round = moves_this_round  # read by Game to reset SelectionScreen
             self.player.clear_moves()
             self.opponent.clear_moves()

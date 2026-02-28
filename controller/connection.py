@@ -11,13 +11,13 @@ class Connection:
         if self.establishing:
             return
         self.establishing = True
-        self.connection = Network("10.252.95.244")  # your networking wrapper
+        self.network = Network("10.252.95.244")  # your networking wrapper
 
     def is_connected(self) -> bool:
         if not self.establishing:
             return False
         if self.done:
             return True
-        if self.connection and self.connection.client.ready:
+        if self.network and self.network.client.ready:
             self.done = True
         return self.done
