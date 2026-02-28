@@ -33,7 +33,6 @@ class host():
 
         #tells both the game has started
         for soc, addr in self.clients:
-            soc.send(bytes("Game_started", "utf-8"))
             soc.send(bytes(f"Game_started {self.moves}", "utf-8"))
         self.game_over = False
         self.data = ["0", "0"]
@@ -44,6 +43,7 @@ class host():
             for i in range(len(self.clients)):
                 soc, addr = self.clients[i]
                 message = soc.recv(1024).decode("utf-8")
+                print("from client",message)
                 if message == '' or message == "End":
                     soc.close()
                     self.clients.remove((soc, addr))
