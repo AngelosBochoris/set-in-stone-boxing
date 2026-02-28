@@ -8,12 +8,13 @@ for the current round. No pygame. No rendering.
 ─────────────────────────────────────────────────────
 """
 
+
 class Player:
     def __init__(self, name: str, max_health: int = 100):
-        self.name:       str       = name
-        self.max_health: int       = max_health
-        self.health:     int       = max_health
-        self.moves:      list[str] = []   # move sequence for the current round
+        self.name: str = name
+        self.max_health: int = max_health
+        self.health: int = max_health
+        self.moves: list[str] = []  # move sequence for the current round
 
     # ── move management ───────────────────────────
 

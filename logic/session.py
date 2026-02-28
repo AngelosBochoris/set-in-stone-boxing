@@ -30,7 +30,7 @@ No pygame. No rendering.
 """
 
 import random
-import Graphics.config as config
+import graphics.config as config
 from logic.player import Player
 from logic.main import Logic
 
@@ -40,17 +40,17 @@ class GameSession:
         self.max_rounds: int = 3
 
         # These are reset on start_game()
-        self.state:        str    = config.MAIN_MENU
-        self.round_number: int    = 1
-        self.player:   Player     = Player("You")
-        self.opponent: Player     = Player("Opponent")
-        self.logic:    Logic      = Logic()
+        self.state: str = config.MAIN_MENU
+        self.round_number: int = 1
+        self.player: Player = Player("You")
+        self.opponent: Player = Player("Opponent")
+        self.logic: Logic = Logic()
 
         # Resolve playback — advanced by update()
-        self._steps:        list[dict] = []
-        self._step_index:   int        = 0
-        self._step_timer:   float      = 0.0
-        self.current_step:  dict | None = None
+        self._steps: list[dict] = []
+        self._step_index: int = 0
+        self._step_timer: float = 0.0
+        self.current_step: dict | None = None
 
     # ─────────────────────────────────────────────
     #  Read-only display properties
@@ -125,7 +125,7 @@ class GameSession:
 
         # Sync final health from the resolved result
         self.opponent.set_moves([s["p2_move"] for s in result["steps"]])
-        self._steps      = result["steps"]
+        self._steps = result["steps"]
         self._transition(config.RESOLVE)
 
     def _advance_step(self) -> None:
@@ -154,15 +154,15 @@ class GameSession:
 
         if new_state == config.P1_SELECT:
             moves_this_round = random.randint(config.MIN_MOVES, config.MAX_MOVES)
-            self._moves_this_round = moves_this_round   # read by Game to reset SelectionScreen
+            self._moves_this_round = moves_this_round  # read by Game to reset SelectionScreen
             self.player.clear_moves()
             self.opponent.clear_moves()
 
         elif new_state == config.RESOLVE:
-            self._step_index  = 0
-            self._step_timer  = config.STEP_DELAY
+            self._step_index = 0
+            self._step_timer = config.STEP_DELAY
             self.current_step = None
-            self._advance_step()   # display first step immediately
+            self._advance_step()  # display first step immediately
 
     # ─────────────────────────────────────────────
     #  Convenience: how many moves to pick this round
