@@ -111,7 +111,7 @@ class Battle:
             self._transition(config.P1_SELECT)
         else:
             self._transition(config.GAME_OVER)
-            self.connection.game_over()
+            self.connection.end_game()
 
     def _transition(self, new_state: str) -> None:
         self.battle_state = new_state
