@@ -50,9 +50,10 @@ class Logic:
         """
         self._my_moves = moves
         string_of_moves = ""
-        for move in moves:
-            string_of_moves += move + ","
-        string_of_moves = string_of_moves[:-1]
+        if len(moves) > 0:
+            for move in moves:
+                string_of_moves += move + ","
+            string_of_moves = string_of_moves[:-1]
         opponent_moves = self._connection.send_move(string_of_moves)
         opponent_moves_list = opponent_moves.split(",")
 
