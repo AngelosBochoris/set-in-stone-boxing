@@ -111,8 +111,9 @@ class Game:
 
         elif state == config.P1_SELECT:
             self.p1_screen.update(dt)
-            if self.p1_screen.locked and self.p1_screen.time_left <= 0:
+            if self.p1_screen.timer_expired:
                 self.session.submit_player_moves(self.p1_screen.moves)
+                self.p1_screen.timer_expired = False
 
         # Delegate all game-state advancement to the session
         self.session.update(dt)
