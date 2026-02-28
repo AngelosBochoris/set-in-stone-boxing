@@ -1,4 +1,4 @@
-from client import client
+from network.client import Client
 from _thread import *
 from server import host
 
@@ -16,7 +16,7 @@ class Network:
             self.host=None
 
         #set up client object
-        self.client=client(ip)
+        self.client=Client(ip)
 
         #start client
         if not self.client.try_connect():
@@ -37,9 +37,16 @@ class Network:
         if not self.game_over:
             self.send_move("End")
 
+def establish_connection(ip="10.252.95.244"):
+    tmp = Network(ip)
+    # TODO
+    while not tmp.client.ready:
+        continue
+    return tmp
 
 h=input()=='t'
-tmp=Network("10.254.229.251",h)
+tmp=Network("10.252.95.244",h)
+"10.252.95.244"
 ct=random.randint(1,90)
 #leading screen and what nor
 while not tmp.client.ready:
