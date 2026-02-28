@@ -1,8 +1,4 @@
-from graphics.game import Game
-
-# ─────────────────────────────────────────────
-#  Entry point
-# ─────────────────────────────────────────────
+from controller.process import Process
 
 if __name__ == "__main__":
-    Game().run()
+    Process().run()

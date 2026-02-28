@@ -1,8 +1,8 @@
-import graphics.config as config
+import configs.config as config
 import pygame
 
 # temporary imports
-from graphics.ui_elements.button import Button
+from view.ui_elements.button import Button
 
 class SelectionScreen:
     def __init__(self, player_num):

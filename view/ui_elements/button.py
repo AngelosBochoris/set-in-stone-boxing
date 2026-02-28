@@ -1,17 +1,16 @@
-import graphics.config as config
+import configs.config as config
 import pygame
 
-class Button:
-    """Reusable button with mouse + keyboard support."""
 
+class Button:
     def __init__(self, rect, label, key=None, key_name=""):
-        self.rect      = pygame.Rect(rect)
-        self.label     = label
-        self.key       = key        # pygame key constant, or None
-        self.key_name  = key_name   # display string for the key hint
-        self.hovered   = False
-        self.pressed   = False      # selected/active state
-        self.locked    = False
+        self.rect = pygame.Rect(rect)
+        self.label = label
+        self.key = key  # pygame key constant, or None
+        self.key_name = key_name  # display string for the key hint
+        self.hovered = False
+        self.pressed = False  # selected/active state
+        self.locked = False
         self._font_main = None
         self._font_hint = None
 
@@ -71,4 +70,3 @@ class Button:
             hint_surf = self._font_hint.render(f"[{self.key_name}]", True, config.C_SUBTEXT)
             hint_rect = hint_surf.get_rect(center=(self.rect.centerx, self.rect.centery + 12))
             surface.blit(hint_surf, hint_rect)
-

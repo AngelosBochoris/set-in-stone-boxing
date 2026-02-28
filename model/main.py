@@ -1,5 +1,5 @@
 from network.interface import Network
-from logic.resolver import get_result_of_moves
+from model.resolver import get_result_of_moves
 
 class Logic:
     def __init__(self):
@@ -12,23 +12,7 @@ class Logic:
         self._connecting = False
         self._connection = None
 
-    def start_connection(self):
-        if self._connecting:
-            return
-        self._connecting = True
-        self._connection = Network("10.252.95.244")  # your networking wrapper
 
-    def is_connected(self) -> bool:
-        if not self._connecting:
-            return False
-        if self._connected:
-            return True
-
-        # non-blocking check
-        if self._connection and self._connection.client.ready:
-            self._connected = True
-
-        return self._connected
 
     def submit_moves(self, moves: list[str]) -> dict | None:
         """

@@ -30,12 +30,11 @@ No pygame. No rendering.
 """
 
 import random
-import graphics.config as config
-from logic.player import Player
-from logic.main import Logic
+import configs.config as config
+from model.player import Player
+from model.main import Logic
 
-
-class GameSession:
+class Battle:
     def __init__(self):
         self.max_rounds: int = 3
 
@@ -51,11 +50,6 @@ class GameSession:
         self._step_index: int = 0
         self._step_timer: float = 0.0
         self.current_step: dict | None = None
-
-    # ─────────────────────────────────────────────
-    #  Read-only display properties
-    # ─────────────────────────────────────────────
-
     @property
     def step_index(self) -> int:
         return self._step_index
@@ -70,7 +64,7 @@ class GameSession:
 
     @property
     def winner(self) -> str | None:
-        """Only meaningful in GAME_OVER state."""
+        """None if game's not over"""
         if self.state != config.GAME_OVER:
             return None
         if self.player.health > self.opponent.health:
@@ -79,24 +73,15 @@ class GameSession:
             return "opponent"
         return "draw"
 
-    # ─────────────────────────────────────────────
-    #  Game lifecycle
-    # ─────────────────────────────────────────────
-
     def start_game(self) -> None:
-        """Reset everything and begin a new game."""
+        establish_connection()
         self.round_number = 1
         self.player.reset_health()
         self.opponent.reset_health()
-
         self.logic = Logic()
         self.logic.start_connection()
-
         self._transition(config.CONNECTING)
 
-    # ─────────────────────────────────────────────
-    #  Called by Game when the SelectionScreen locks
-    # ─────────────────────────────────────────────
     def submit_player_moves(self, moves: list[str]) -> None:
         """Store moves on the Player and send them to Logic."""
         self.player.set_moves(moves)
@@ -104,10 +89,6 @@ class GameSession:
         # self._transition(config.WAITING)
         self._steps = result["steps"]
         self._transition(config.RESOLVE)
-
-    # ─────────────────────────────────────────────
-    #  Frame update — called every tick by Game
-    # ─────────────────────────────────────────────
 
     def update(self, dt: float) -> None:
         if self.state == config.WAITING:
@@ -120,11 +101,6 @@ class GameSession:
             self._step_timer -= dt
             if self._step_timer <= 0:
                 self._advance_step()
-
-    # ─────────────────────────────────────────────
-    #  Internal helpers
-    # ─────────────────────────────────────────────
-
     def _update_waiting(self) -> None:
         result = self.logic.poll_result()
         if result is None:
@@ -140,7 +116,6 @@ class GameSession:
             self._transition(config.P1_SELECT)
 
     def _advance_step(self) -> None:
-        """Show the next step, or end the round when steps are exhausted."""
         step = self.logic.next_step()
         if step is not None:
             self.current_step = step
@@ -174,10 +149,6 @@ class GameSession:
             self._step_timer = config.STEP_DELAY
             self.current_step = None
             self._advance_step()  # display first step immediately
-
-    # ─────────────────────────────────────────────
-    #  Convenience: how many moves to pick this round
-    # ─────────────────────────────────────────────
 
     @property
     def moves_this_round(self) -> int:
