@@ -23,6 +23,7 @@ class Network:
             raise Exception("Couldn't find server")
 
         start_new_thread(self.client.wait_for_game_start,())
+
     def send_move(self,move):
         ack=self.client.send_move(move)
         if ack=="Game_ended" or ack=="":

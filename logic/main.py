@@ -12,6 +12,7 @@ class Logic:
         self._connecting = False
         self._connection = None
 
+
     def start_connection(self):
         if self._connecting:
             return
@@ -29,6 +30,9 @@ class Logic:
             self._connected = True
 
         return self._connected
+
+    def get_move_number(self):
+        return self._connection.client.moves
 
     def submit_moves(self, moves: list[str]) -> dict | None:
         """

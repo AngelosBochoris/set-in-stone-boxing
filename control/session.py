@@ -164,7 +164,7 @@ class GameSession:
         self.state = new_state
 
         if new_state == config.P1_SELECT:
-            moves_this_round = random.randint(config.MIN_MOVES, config.MAX_MOVES)
+            moves_this_round = self.logic.get_move_number()
             self._moves_this_round = moves_this_round  # read by Game to reset SelectionScreen
             self.player.clear_moves()
             self.opponent.clear_moves()
