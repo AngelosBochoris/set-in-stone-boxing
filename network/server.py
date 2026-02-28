@@ -1,10 +1,10 @@
 import socket
 
 class host():
-    def __init__(self,name,port):
+    def __init__(self):
         #info about host
-        self.name = name
-        self.port = port
+        self.name = "0.0.0.0"
+        self.port = 8080
         self.game_over = False
 
         # sockets using TCP
