@@ -14,6 +14,7 @@ P1_SELECT = "P1_SELECT"
 WAITING   = "WAITING"       # waiting for server result
 RESOLVE   = "RESOLVE"
 GAME_OVER = "GAME_OVER"
+CONNECTING= "CONNECTING"
 # P2_SELECT removed — this client is single-player online
 
 # Selection rules
