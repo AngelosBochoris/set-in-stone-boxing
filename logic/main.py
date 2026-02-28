@@ -42,7 +42,11 @@ class Logic:
             moves: e.g. ["Attack Left", "Defend Right", "Counter Left"]
         """
         self._my_moves = moves
-        opponent_moves = self._connection.send_moves(self._my_moves)
+        string_of_moves = ""
+        for move in moves:
+            string_of_moves += move + ","
+        string_of_moves = string_of_moves[:-1]
+        opponent_moves = self._connection.send_move(string_of_moves)
 
         if self._connection.game_over:
             return None
