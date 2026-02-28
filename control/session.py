@@ -108,6 +108,9 @@ class GameSession:
         if self.state == config.WAITING:
             self._update_waiting()
 
+        elif self.state == config.CONNECTING:
+            self._update_connecting()
+
         elif self.state == config.RESOLVE:
             self._step_timer -= dt
             if self._step_timer <= 0:
@@ -121,6 +124,15 @@ class GameSession:
         result = self.logic.poll_result()
         if result is None:
             return
+
+        # Sync final health from the resolved result
+        self.opponent.set_moves([s["p2_move"] for s in result["steps"]])
+        self._steps = result["steps"]
+        self._transition(config.RESOLVE)
+
+    def _update_connecting(self) -> None:
+        while not connection.client.ready:
+            continue
 
         # Sync final health from the resolved result
         self.opponent.set_moves([s["p2_move"] for s in result["steps"]])

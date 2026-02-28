@@ -90,9 +90,6 @@ class Game:
                 pygame.quit()
                 sys.exit()
 
-        elif state == config.CONNECTING:
-            self.p1_screen.
-
         elif state == config.P1_SELECT:
             self.p1_screen.handle_event(event, mouse_pos)
 
@@ -137,6 +134,8 @@ class Game:
             self.p1_screen.draw(self.screen)
         elif state == config.WAITING:
             self._draw_waiting()
+        elif state == config.CONNECTING:
+            self._draw_connecting()
         elif state == config.RESOLVE:
             self._draw_resolve()
         elif state == config.GAME_OVER:
@@ -164,6 +163,16 @@ class Game:
             "Your moves have been sent. Hang tight.", True, config.C_SUBTEXT)
         self.screen.blit(hint, hint.get_rect(
             center=(config.WINDOW_W // 2, config.WINDOW_H // 2 + 35)))
+        dots = "." * (1 + (pygame.time.get_ticks() // 500) % 3)
+        dots_surf = self.font_medium.render(dots, True, config.C_SUBTEXT)
+        self.screen.blit(dots_surf, dots_surf.get_rect(
+            center=(config.WINDOW_W // 2, config.WINDOW_H // 2 + 75)))
+
+    def _draw_connecting(self):
+        self.screen.fill(config.C_BG)
+        text = self.font_large.render("Waiting for opponent to connect…", True, config.C_TEXT)
+        self.screen.blit(text, text.get_rect(
+            center=(config.WINDOW_W // 2, config.WINDOW_H // 2 - 20)))
         dots = "." * (1 + (pygame.time.get_ticks() // 500) % 3)
         dots_surf = self.font_medium.render(dots, True, config.C_SUBTEXT)
         self.screen.blit(dots_surf, dots_surf.get_rect(
