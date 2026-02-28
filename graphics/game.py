@@ -85,7 +85,6 @@ class Game:
         if state == config.MAIN_MENU:
             if self.btn_start.handle_event(event, mouse_pos):
                 self.session.start_game()
-                self.p1_screen.reset(self.session.moves_this_round)
             if self.btn_quit.handle_event(event, mouse_pos):
                 pygame.quit()
                 sys.exit()

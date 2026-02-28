@@ -25,13 +25,35 @@ No pygame imports. No rendering logic.
 
 
 
-from network.interface import *
+from network.interface import Network
 class Logic:
     def __init__(self):
         self._my_moves:   list[str]   = []
         self._steps:      list[dict]  = []
         self._step_index: int         = 0
         self._result:     dict | None = None
+
+        self._connected = False
+        self._connecting = False
+        self._connection = None
+
+    def start_connection(self):
+        if self._connecting:
+            return
+        self._connecting = True
+        self._connection = Network("10.252.95.244")  # your networking wrapper
+
+    def is_connected(self) -> bool:
+        if not self._connecting:
+            return False
+        if self._connected:
+            return True
+
+        # non-blocking check
+        if self._connection and self._connection.client.ready:
+            self._connected = True
+
+        return self._connected
 
     # ─────────────────────────────────────────────────
     #  Step 1 — called by Game when P1 locks their moves

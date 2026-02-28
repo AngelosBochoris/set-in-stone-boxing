@@ -88,7 +88,10 @@ class GameSession:
         self.round_number = 1
         self.player.reset_health()
         self.opponent.reset_health()
+
         self.logic = Logic()
+        self.logic.start_connection()
+
         self._transition(config.CONNECTING)
 
     # ─────────────────────────────────────────────
@@ -131,13 +134,8 @@ class GameSession:
         self._transition(config.RESOLVE)
 
     def _update_connecting(self) -> None:
-        while not connection.client.ready:
-            continue
-
-        # Sync final health from the resolved result
-        self.opponent.set_moves([s["p2_move"] for s in result["steps"]])
-        self._steps = result["steps"]
-        self._transition(config.RESOLVE)
+        if self.logic.is_connected():
+            self._transition(config.P1_SELECT)
 
     def _advance_step(self) -> None:
         """Show the next step, or end the round when steps are exhausted."""
