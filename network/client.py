@@ -3,15 +3,15 @@ import time
 import random
 
 class client:
-    def __init__(self,name,port):
-        self.name = name
-        self.port = port
+    def __init__(self):
+        self.name = "10.254.229.251"
+        self.port = 8080
         self.number= -1
         self.ready=False
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     def try_connect(self):
         try:
-            self.s.connect((self.name, 8080))
+            self.s.connect((self.name, self.port))
             self.number=int(self.s.recv(1024).decode('utf-8'))
             return True
         except socket.error:
