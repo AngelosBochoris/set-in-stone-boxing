@@ -32,42 +32,68 @@ def get_result_of_moves(p1_moves: list[str], p2_moves: list[str], p1_health: int
 # Outcome table: (p1_move, p2_move) → (damage_to_p1, damage_to_p2)
 # Extend this as your combat design evolves.
 _OUTCOME_TABLE: dict[tuple[str, str], tuple[int, int]] = {
-    # Attack vs Attack  — both take damage (trade)
-    ("Attack Left",  "Attack Left"):   (10, 10),
-    ("Attack Left",  "Attack Right"):  (10, 10),
-    ("Attack Right", "Attack Left"):   (10, 10),
-    ("Attack Right", "Attack Right"):  (10, 10),
+    # Attack Left
+    ("Attack Left", "Attack Left"):   (10, 10),
+    ("Attack Left", "Defend Left"):  (0, 10),
+    ("Attack Left", "Counter Left"):   (0, 15),
+    ("Attack Left", "Attack Right"):  (5, 5),
+    ("Attack Left", "Defend Right"):   (5, 0),
+    ("Attack Left", "Counter Right"):  (15, 0),
+    ("Attack Left", "Idle"):  (0, 10),
 
-    # Attack vs Defend (same side) — blocked, no damage
-    ("Attack Left",  "Defend Left"):   ( 0,  0),
-    ("Attack Right", "Defend Right"):  ( 0,  0),
+    # Defend Left
+    ("Defend Left", "Attack Left"): (10, 0),
+    ("Defend Left", "Defend Left"): (0, 0),
+    ("Defend Left", "Counter Left"): (0, 5),
+    ("Defend Left", "Attack Right"): (0, 5),
+    ("Defend Left", "Defend Right"): (0, 0),
+    ("Defend Left", "Counter Right"): (10, 0),
+    ("Defend Left", "Idle"): (0, 0),
 
-    # Attack vs Defend (opposite side) — attack lands
-    ("Attack Left",  "Defend Right"):  ( 0, 15),
-    ("Attack Right", "Defend Left"):   ( 0, 15),
+    # Counter Left
+    ("Counter Left", "Attack Left"): (15, 0),
+    ("Counter Left", "Defend Left"): (5, 0),
+    ("Counter Left", "Counter Left"): (15, 15),
+    ("Counter Left", "Attack Right"): (0, 15),
+    ("Counter Left", "Defend Right"): (0, 10),
+    ("Counter Left", "Counter Right"): (5, 5),
+    ("Counter Left", "Idle"): (0, 10),
 
-    # Attack vs Counter (same side) — counter wins
-    ("Attack Left",  "Counter Left"):  (20,  0),
-    ("Attack Right", "Counter Right"): (20,  0),
+    # Attack Right
+    ("Attack Right", "Attack Left"): (5, 5),
+    ("Attack Right", "Defend Left"): (5, 0),
+    ("Attack Right", "Counter Left"): (15, 0),
+    ("Attack Right", "Attack Right"): (10, 10),
+    ("Attack Right", "Defend Right"): (0, 10),
+    ("Attack Right", "Counter Right"): (0, 15),
+    ("Attack Right", "Idle"): (0, 10),
 
-    # Attack vs Counter (opposite side) — attack lands
-    ("Attack Left",  "Counter Right"): ( 0, 15),
-    ("Attack Right", "Counter Left"):  ( 0, 15),
+    # Defend Right
+    ("Defend Right", "Attack Left"): (0, 5),
+    ("Defend Right", "Defend Left"): (0, 0),
+    ("Defend Right", "Counter Left"): (10, 0),
+    ("Defend Right", "Attack Right"): (10, 0),
+    ("Defend Right", "Defend Right"): (0, 0),
+    ("Defend Right", "Counter Right"): (0, 5),
+    ("Defend Right", "Idle"): (0, 0),
 
-    # Defend vs anything — defender takes no damage
-    ("Defend Left",  "Attack Left"):   ( 0,  0),
-    ("Defend Left",  "Attack Right"):  (15,  0),
-    ("Defend Right", "Attack Left"):   (15,  0),
-    ("Defend Right", "Attack Right"):  ( 0,  0),
-
-    # Counter vs Attack — mirror of Attack vs Counter
-    ("Counter Left",  "Attack Left"):  ( 0, 20),
-    ("Counter Right", "Attack Right"): ( 0, 20),
-    ("Counter Left",  "Attack Right"): (15,  0),
-    ("Counter Right", "Attack Left"):  (15,  0),
+    # Counter Right
+    ("Counter Right", "Attack Left"): (0, 15),
+    ("Counter Right", "Defend Left"): (0, 10),
+    ("Counter Right", "Counter Left"): (5, 5),
+    ("Counter Right", "Attack Right"): (15, 0),
+    ("Counter Right", "Defend Right"): (5, 0),
+    ("Counter Right", "Counter Right"): (15, 15),
+    ("Counter Right", "Idle"): (0, 10),
 
     # Idle
-    ("Idle", "Idle"):         (0, 0),
+    ("Idle", "Attack Left"): (10, 0),
+    ("Idle", "Defend Left"): (0, 0),
+    ("Idle", "Counter Left"): (10, 0),
+    ("Idle", "Attack Right"): (10, 0),
+    ("Idle", "Defend Right"): (0, 0),
+    ("Idle", "Counter Right"): (10, 0),
+    ("Idle", "Idle"): (0, 0),
 }
 
 _DEFAULT_OUTCOME: tuple[int, int] = (0, 0)  # fallback for unlisted pairs
