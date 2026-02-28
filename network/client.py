@@ -4,7 +4,7 @@ import random
 
 class client:
     def __init__(self):
-        self.name = "10.254.229.251"
+        self.name = "10.252.45.248"
         self.port = 8080
         self.number= -1
         self.ready=False

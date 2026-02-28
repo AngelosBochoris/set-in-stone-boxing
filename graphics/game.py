@@ -90,6 +90,9 @@ class Game:
                 pygame.quit()
                 sys.exit()
 
+        elif state == config.CONNECTING:
+            self.p1_screen.
+
         elif state == config.P1_SELECT:
             self.p1_screen.handle_event(event, mouse_pos)
 
