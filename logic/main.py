@@ -25,9 +25,9 @@ No pygame imports. No rendering logic.
 
 
 
+from network.interface import *
 class Logic:
     def __init__(self):
-        # TODO: open network connection / session here
         self._my_moves:   list[str]   = []
         self._steps:      list[dict]  = []
         self._step_index: int         = 0

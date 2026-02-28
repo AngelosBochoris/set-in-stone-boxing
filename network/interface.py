@@ -38,22 +38,26 @@ class Network:
         self.send_move("End")
 
 
+def establish_connection():
+    tmp=Network()
+    while not tmp.client.ready:
+        continue
 
-tmp=Network()
-ct=random.randint(1,90)
-#leading screen and what nor
-while not tmp.client.ready:
-    continue
+if __name__=="__main__":
+    tmp = Network()
+    ct=random.randint(1,90)
+    #leading screen and what nor
+    while not tmp.client.ready:
+        continue
 
-for i in range(3):
-    time.sleep(2)
-    print("Your move:",ct)
-    print("Enemy move:",tmp.send_move(str(ct)))
-    ct+=1
+    for i in range(3):
+        time.sleep(2)
+        print("Your move:",ct)
+        print("Enemy move:",tmp.send_move(str(ct)))
+        ct+=1
 
-time.sleep(1)
-tmp.end_game()
-
+    time.sleep(1)
+    tmp.end_game()
 
 
 

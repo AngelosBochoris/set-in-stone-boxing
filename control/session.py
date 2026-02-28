@@ -89,12 +89,11 @@ class GameSession:
         self.player.reset_health()
         self.opponent.reset_health()
         self.logic = Logic()
-        self._transition(config.P1_SELECT)
+        self._transition(config.CONNECTING)
 
     # ─────────────────────────────────────────────
     #  Called by Game when the SelectionScreen locks
     # ─────────────────────────────────────────────
-
     def submit_player_moves(self, moves: list[str]) -> None:
         """Store moves on the Player and send them to Logic."""
         self.player.set_moves(moves)
