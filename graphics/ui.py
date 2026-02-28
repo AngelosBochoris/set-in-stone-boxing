@@ -1,5 +1,5 @@
 import pygame
-import config
+import graphics.config as config
 
 # ─────────────────────────────────────────────
 #  Button class

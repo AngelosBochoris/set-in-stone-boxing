@@ -1,4 +1,4 @@
-from game import Game
+from graphics.game import Game
 
 # ─────────────────────────────────────────────
 #  Entry point
