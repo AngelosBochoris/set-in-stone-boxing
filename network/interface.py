@@ -21,7 +21,7 @@ class Network:
             print("I'm don't have host\n")
 
         #set up client object
-        self.client=client(self.host,self.port)
+        self.client=client(self.name,self.port)
 
         #start client
         self.client.try_connect()
