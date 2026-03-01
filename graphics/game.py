@@ -31,6 +31,11 @@ class Game:
         pygame.display.set_caption(config.TITLE)
         self.clock  = pygame.time.Clock()
 
+        pygame.mixer.init()
+        pygame.mixer.music.load("assets/music/music1.mp3")
+        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.play(-1)
+
         self.font_large  = pygame.font.SysFont(None, 52, bold=True)
         self.font_medium = pygame.font.SysFont(None, 28)
         self.font_small  = pygame.font.SysFont(None, 20)
