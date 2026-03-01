@@ -20,8 +20,8 @@ CONNECTING= "CONNECTING"
 # Selection rules
 MIN_MOVES        = 2
 MAX_MOVES        = 6
-SELECTION_TIME   = 2.0     # seconds
-RESOLVE_DURATION = 1.2      # seconds
+SELECTION_TIME   = 1.2     # seconds
+RESOLVE_DURATION = 1.5      # seconds
 
 # Step-by-step resolution
 STEP_DELAY = 0.8            # seconds between each move step reveal
