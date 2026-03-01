@@ -16,7 +16,7 @@ class host():
         # lets 2 ppl connect
         self.s.listen(2)
 
-        self.moves=random.randint(2,6)
+        self.moves=random.randint(4,7)
 
     def start(self):
         #stack with all the clients
