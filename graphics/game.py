@@ -50,8 +50,8 @@ class Game:
         pygame.mixer.music.set_volume(0.5)
         pygame.mixer.music.play(-1)
 
-        self._anim = {(p, *pair):
-                          StepAnimation(frame_sources=get_frames_dest(p, *pair), step_duration=config.STEP_DELAY)
+        self._anim = {(p, pair):
+                          StepAnimation(frame_sources=get_frames_dest(p, pair), step_duration=config.STEP_DELAY)
                       for pair in _OUTCOME_TABLE.keys() for p in (0, 1)}
 
         self._last_step_index = -1
