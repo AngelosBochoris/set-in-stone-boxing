@@ -112,8 +112,8 @@ class SelectionScreen:
     def reset(self, number_of_moves):
         self.moves     = []
         self.locked    = False
-        self.time_left = config.SELECTION_TIME
         self.number_of_moves = number_of_moves
+        self.time_left = self.number_of_moves * config.SELECTION_TIME
         self.timer_expired = False
         for btn in self.buttons:
             btn.pressed = False
