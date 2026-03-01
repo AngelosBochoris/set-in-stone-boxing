@@ -144,14 +144,8 @@ class Game:
 
                 if step:
                     # Choose animation based on the step outcome (example logic).
-                    damage_to_p1 = step.get("damage_to_p1", 0)
-                    damage_to_p2 = step.get("damage_to_p2", 0)
-
-                    if damage_to_p1 > 0 or damage_to_p2 > 0:
-                        self._active_anim = self._anim_hit
-                    else:
-                        self._active_anim = self._anim_block
-
+                    player_number = self.session.logic.get_player_number()
+                    self._active_anim = self._anim[(player_number, step["p1_move"], step["p2_move"])]
                     self._active_anim.reset()
 
             # Advance the active animation every frame.
