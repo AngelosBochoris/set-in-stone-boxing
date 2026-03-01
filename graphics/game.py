@@ -24,35 +24,41 @@ from graphics.ui import SelectionScreen
 from control.session import GameSession
 from graphics.animation import StepAnimation
 
+from typing import *
+from logic.resolver import _OUTCOME_TABLE
+
+
+def get_frames_dest(p: int, moves: Tuple[str, str]):
+    m1, m2 = moves
+    m1 = m1.replace(" ", "_")
+    if p == 1:
+        m1, m2 = m2, m1
+    return ["graphics/Animations/Moves/" + m1 + "-" + m2 + "/" + ('P1' if p == 0 else 'P2') + '/' + str(j) + '.jpg' for
+            j in range(5)]
+
 
 class Game:
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((config.WINDOW_W, config.WINDOW_H))
         pygame.display.set_caption(config.TITLE)
-        self.clock  = pygame.time.Clock()
+        self.clock = pygame.time.Clock()
 
         pygame.mixer.init()
         pygame.mixer.music.load("assets/music/music1.mp3")
         pygame.mixer.music.set_volume(0.5)
         pygame.mixer.music.play(-1)
 
-        self._anim_hit = StepAnimation(
-            frame_sources=[
-                "graphics/Animations/Moves/Attack_Right-Idle/P1/0.jpg",
-                "graphics/Animations/Moves/Attack_Right-Idle/P1/1.jpg",
-                "graphics/Animations/Moves/Attack_Right-Idle/P1/2.jpg",
-                "graphics/Animations/Moves/Attack_Right-Idle/P1/3.jpg",
-                "graphics/Animations/Moves/Attack_Right-Idle/P1/4.jpg"
-            ],
-            step_duration=config.STEP_DELAY,
-        )
+        self._anim = {(p, *pair):
+                          StepAnimation(frame_sources=get_frames_dest(p, *pair), step_duration=config.STEP_DELAY)
+                      for pair in _OUTCOME_TABLE.keys() for p in (0, 1)}
+
         self._last_step_index = -1
 
-        self.font_large  = pygame.font.SysFont(None, 52, bold=True)
+        self.font_large = pygame.font.SysFont(None, 52, bold=True)
         self.font_medium = pygame.font.SysFont(None, 28)
-        self.font_small  = pygame.font.SysFont(None, 20)
-        self.font_tiny   = pygame.font.SysFont(None, 16)
+        self.font_small = pygame.font.SysFont(None, 20)
+        self.font_tiny = pygame.font.SysFont(None, 16)
 
         # ── game state lives here, not in Game ────
         self.session = GameSession()
@@ -126,7 +132,7 @@ class Game:
 
         if state == config.MAIN_MENU:
             self.btn_start.hovered = self.btn_start.is_hovered(mouse_pos)
-            self.btn_quit.hovered  = self.btn_quit.is_hovered(mouse_pos)
+            self.btn_quit.hovered = self.btn_quit.is_hovered(mouse_pos)
 
         elif state == config.P1_SELECT:
             self.p1_screen.update(dt)
@@ -245,7 +251,7 @@ class Game:
             d1 = step.get("damage_to_p1", 0)
             d2 = step.get("damage_to_p2", 0)
             dmg_lines = []
-            if d1: dmg_lines.append((f"You took {d1} damage",    config.C_HEALTH_LOW))
+            if d1: dmg_lines.append((f"You took {d1} damage", config.C_HEALTH_LOW))
             if d2: dmg_lines.append((f"Opponent took {d2} damage", config.C_HEALTH_BAR))
             if not dmg_lines:
                 dmg_lines.append(("No damage this step", config.C_SUBTEXT))
@@ -277,9 +283,9 @@ class Game:
         s = self.session
 
         result_map = {
-            "player":   ("You Win!",  config.C_HEALTH_BAR),
+            "player": ("You Win!", config.C_HEALTH_BAR),
             "opponent": ("You Lose.", config.C_HEALTH_LOW),
-            "draw":     ("Draw!",     config.C_TEXT),
+            "draw": ("Draw!", config.C_TEXT),
         }
         text, colour = result_map.get(s.winner, ("Game Over", config.C_TEXT))
 
@@ -302,11 +308,11 @@ class Game:
     def _draw_health_bars(self, y_offset: int = 50):
         s = self.session
         bar_w, bar_h = 360, 26
-        gap     = 40
+        gap = 40
         start_x = (config.WINDOW_W - (bar_w * 2 + gap)) // 2
 
         entries = [
-            (s.player,   config.C_ACCENT1, start_x),
+            (s.player, config.C_ACCENT1, start_x),
             (s.opponent, config.C_ACCENT2, start_x + bar_w + gap),
         ]
         for player, accent, x in entries:
