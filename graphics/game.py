@@ -52,7 +52,7 @@ class Game:
         self._anim = {(p, *pair):
                           StepAnimation(frame_sources=get_frames_dest(p, *pair), step_duration=config.STEP_DELAY)
                       for pair in _OUTCOME_TABLE.keys() for p in (0, 1)}
-        
+
         self._last_step_index = -1
 
         self.font_large = pygame.font.SysFont(None, 52, bold=True)
@@ -244,7 +244,7 @@ class Game:
         # Current step detail
         step = s.current_step
         if step:
-            cy = config.WINDOW_H // 2 - 60
+            cy = config.WINDOW_H // 6
             p1_surf = self.font_medium.render(
                 f"Your move:  {step.get('p1_move', '—')}", True, config.C_ACCENT1)
             p2_surf = self.font_medium.render(
@@ -272,7 +272,7 @@ class Game:
 
         if hasattr(self, "_active_anim") and self._active_anim:
             # draw() — top-left anchor
-            self._active_anim.draw(self.screen, (250, 250))
+            self._active_anim.draw(self.screen, (config.WINDOW_W / 5, config.WINDOW_H / 5 + 50))
 
         # Progress bar toward next step
         bar_w, bar_h = 300, 6
