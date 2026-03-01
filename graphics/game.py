@@ -34,7 +34,7 @@ def get_frames_dest(p: int, moves: Tuple[str, str]):
     m2 = m2.replace(" ", "_")
     if p == 1:
         m1, m2 = m2, m1
-    return ["graphics/Animations/Moves/" + m1 + "-" + m2 + "/" + ('P1' if p == 0 else 'P2') + '/' + str(j) + '.jpg' for
+    return ["graphics/Animations/Moves/" + ('P1' if p == 0 else 'P2') + '/' + m1 + "-" + m2 + "/" + str(j) + '.jpg' for
             j in range(5)]
 
 
