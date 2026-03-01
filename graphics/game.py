@@ -22,6 +22,7 @@ import graphics.config as config
 from graphics.ui import Button
 from graphics.ui import SelectionScreen
 from control.session import GameSession
+from graphics.animation import StepAnimation
 
 
 class Game:
@@ -35,6 +36,14 @@ class Game:
         pygame.mixer.music.load("assets/music/music1.mp3")
         pygame.mixer.music.set_volume(0.5)
         pygame.mixer.music.play(-1)
+
+        self._anim_hit = StepAnimation(
+            frame_sources=[
+                "graphics/Animations/Moves/Attack_Right-Idle/P1/0.jpg"
+            ],
+            step_duration=config.STEP_DELAY,
+        )
+        self._last_step_index = -1
 
         self.font_large  = pygame.font.SysFont(None, 52, bold=True)
         self.font_medium = pygame.font.SysFont(None, 28)
@@ -120,6 +129,30 @@ class Game:
             if self.p1_screen.timer_expired:
                 self.session.submit_player_moves(self.p1_screen.moves)
                 self.p1_screen.timer_expired = False
+
+        elif self.session.state == config.RESOLVE:
+            current_index = self.session.step_index
+
+            if current_index != self._last_step_index:
+                # A new step just started — pick and reset the correct animation.
+                self._last_step_index = current_index
+                step = self.session.current_step
+
+                if step:
+                    # Choose animation based on the step outcome (example logic).
+                    damage_to_p1 = step.get("damage_to_p1", 0)
+                    damage_to_p2 = step.get("damage_to_p2", 0)
+
+                    if damage_to_p1 > 0 or damage_to_p2 > 0:
+                        self._active_anim = self._anim_hit
+                    else:
+                        self._active_anim = self._anim_block
+
+                    self._active_anim.reset()
+
+            # Advance the active animation every frame.
+            if hasattr(self, "_active_anim") and self._active_anim:
+                self._active_anim.update(dt)
 
         # Delegate all game-state advancement to the session
         self.session.update(dt)
@@ -226,6 +259,10 @@ class Game:
             loading = self.font_medium.render("Processing…", True, config.C_TEXT)
             self.screen.blit(loading, loading.get_rect(
                 center=(config.WINDOW_W // 2, config.WINDOW_H // 2)))
+
+        if hasattr(self, "_active_anim") and self._active_anim:
+            # draw() — top-left anchor
+            self._active_anim.draw(self.screen, (250, 250))
 
         # Progress bar toward next step
         bar_w, bar_h = 300, 6

@@ -52,3 +52,5 @@ MOVE_DEFS = [
     ("Counter Left",  pygame.K_z, "Z"),
     ("Counter Right", pygame.K_x, "X"),
 ]
+
+TARGET_SIZE = (3 * WINDOW_W / 4, WINDOW_H / 2)
