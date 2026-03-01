@@ -31,6 +31,7 @@ from logic.resolver import _OUTCOME_TABLE
 def get_frames_dest(p: int, moves: Tuple[str, str]):
     m1, m2 = moves
     m1 = m1.replace(" ", "_")
+    m2 = m2.replace(" ", "_")
     if p == 1:
         m1, m2 = m2, m1
     return ["graphics/Animations/Moves/" + m1 + "-" + m2 + "/" + ('P1' if p == 0 else 'P2') + '/' + str(j) + '.jpg' for
