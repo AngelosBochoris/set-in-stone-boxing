@@ -52,7 +52,7 @@ class Game:
 
         self._anim = {(p, pair):
                           StepAnimation(frame_sources=get_frames_dest(p, pair), step_duration=config.STEP_DELAY)
-                      for pair in filter(lambda x: x[1]=="IDLE",_OUTCOME_TABLE.keys()) for p in (0, 1)}
+                      for pair in filter(lambda x: x[1] == "Idle", _OUTCOME_TABLE.keys()) for p in (0, 1)}
 
         self._last_step_index = -1
 
@@ -152,7 +152,7 @@ class Game:
                 if step:
                     # Choose animation based on the step outcome (example logic).
                     player_number = self.session.logic.get_player_number()
-                    self._active_anim = self._anim[(player_number, step["p1_move"], step["p2_move"])]
+                    self._active_anim = self._anim[(player_number, (step["p1_move"], step["p2_move"]))]
                     self._active_anim.reset()
 
             # Advance the active animation every frame.
