@@ -21,10 +21,10 @@ CONNECTING= "CONNECTING"
 MIN_MOVES        = 2
 MAX_MOVES        = 6
 SELECTION_TIME   = 2.0     # seconds
-RESOLVE_DURATION = 2.0      # seconds
+RESOLVE_DURATION = 1.5      # seconds
 
 # Step-by-step resolution
-STEP_DELAY = 0.8            # seconds between each move step reveal
+STEP_DELAY = 0.5            # seconds between each move step reveal
 
 # Colours
 C_BG         = (15,  15,  25)
@@ -53,4 +53,4 @@ MOVE_DEFS = [
     ("Counter Right", pygame.K_x, "X"),
 ]
 
-TARGET_SIZE = (3 * WINDOW_W / 4, WINDOW_H / 2)
+TARGET_SIZE = (3 * WINDOW_W / 5, 3 * WINDOW_H / 5)

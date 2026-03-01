@@ -34,6 +34,9 @@ class Logic:
     def get_move_number(self):
         return self._connection.client.moves
 
+    def get_player_number(self):
+        return self._connection.client.number
+
     def game_over(self):
         self._connection.end_game()
 
