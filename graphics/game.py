@@ -52,7 +52,7 @@ class Game:
 
         self._anim = {(p, pair):
                           StepAnimation(frame_sources=get_frames_dest(p, pair), step_duration=config.STEP_DELAY)
-                      for pair in filter(lambda x: x[1] == "Idle", _OUTCOME_TABLE.keys()) for p in (0, 1)}
+                      for pair in _OUTCOME_TABLE.keys() for p in (0, 1)}
 
         self._last_step_index = -1
 
