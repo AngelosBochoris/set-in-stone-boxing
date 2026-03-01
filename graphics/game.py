@@ -39,7 +39,11 @@ class Game:
 
         self._anim_hit = StepAnimation(
             frame_sources=[
-                "graphics/Animations/Moves/Attack_Right-Idle/P1/0.jpg"
+                "graphics/Animations/Moves/Attack_Right-Idle/P1/0.jpg",
+                "graphics/Animations/Moves/Attack_Right-Idle/P1/1.jpg",
+                "graphics/Animations/Moves/Attack_Right-Idle/P1/2.jpg",
+                "graphics/Animations/Moves/Attack_Right-Idle/P1/3.jpg",
+                "graphics/Animations/Moves/Attack_Right-Idle/P1/4.jpg"
             ],
             step_duration=config.STEP_DELAY,
         )
@@ -234,7 +238,7 @@ class Game:
         # Current step detail
         step = s.current_step
         if step:
-            cy = config.WINDOW_H // 2 - 60
+            cy = config.WINDOW_H // 6
             p1_surf = self.font_medium.render(
                 f"Your move:  {step.get('p1_move', '—')}", True, config.C_ACCENT1)
             p2_surf = self.font_medium.render(
@@ -262,7 +266,7 @@ class Game:
 
         if hasattr(self, "_active_anim") and self._active_anim:
             # draw() — top-left anchor
-            self._active_anim.draw(self.screen, (250, 250))
+            self._active_anim.draw(self.screen, (config.WINDOW_W / 5, config.WINDOW_H / 5 + 50))
 
         # Progress bar toward next step
         bar_w, bar_h = 300, 6
